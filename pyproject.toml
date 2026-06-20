@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "olp-wire-canon"
+version = "0.1.0"
+description = "OpenLine Protocol wire canon and conformance vectors"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.11"
+dependencies = [
+  "cryptography>=41",
+]
+
+[tool.setuptools]
+py-modules = ["reference"]
