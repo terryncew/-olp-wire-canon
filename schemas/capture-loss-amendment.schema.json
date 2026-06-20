@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:olp:wire:0.1:schema:capture-loss-amendment",
+  "title": "OLP capture_loss_amendment 0.1",
+  "allOf": [
+    { "$ref": "urn:olp:wire:0.1:schema:envelope" },
+    {
+      "type": "object",
+      "required": [
+        "trace_id",
+        "amendment_sequence",
+        "previous_receipt_hash",
+        "new_dropped_span_count",
+        "cumulative_dropped_span_count",
+        "reason"
+      ],
+      "properties": {
+        "kind": { "const": "capture_loss_amendment" },
+        "trace_id": { "$ref": "urn:olp:wire:0.1:schema:envelope#/$defs/trace_id" },
+        "amendment_sequence": { "type": "integer", "minimum": 1 },
+        "previous_receipt_hash": { "$ref": "urn:olp:wire:0.1:schema:envelope#/$defs/hash256" },
+        "new_dropped_span_count": { "type": "integer", "minimum": 1 },
+        "cumulative_dropped_span_count": { "type": "integer", "minimum": 1 },
+        "reason": { "const": "processor_queue_overflow_after_provisional_seal" }
+      }
+    }
+  ],
+  "unevaluatedProperties": false
+}

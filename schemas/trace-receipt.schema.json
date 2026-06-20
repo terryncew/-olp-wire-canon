@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:olp:wire:0.1:schema:trace-receipt",
+  "title": "OLP trace_receipt 0.1",
+  "allOf": [
+    { "$ref": "urn:olp:wire:0.1:schema:envelope" },
+    {
+      "type": "object",
+      "required": [
+        "trace_id",
+        "capture_loss",
+        "dropped_span_count",
+        "observed_span_count",
+        "trace_root",
+        "tree_algorithm",
+        "completion_policy",
+        "seal_reason"
+      ],
+      "properties": {
+        "kind": { "const": "trace_receipt" },
+        "trace_id": { "$ref": "urn:olp:wire:0.1:schema:envelope#/$defs/trace_id" },
+        "capture_loss": { "type": "boolean" },
+        "dropped_span_count": { "type": "integer", "minimum": 0 },
+        "observed_span_count": { "type": "integer", "minimum": 0 },
+        "trace_root": { "$ref": "urn:olp:wire:0.1:schema:envelope#/$defs/hash256" },
+        "tree_algorithm": { "const": "rfc6962-mth-sha256-promote-odd-v1" },
+        "completion_policy": { "$ref": "urn:olp:wire:0.1:schema:envelope#/$defs/completion_policy" },
+        "seal_reason": {
+          "enum": ["grace_elapsed", "shutdown_before_grace_elapsed"]
+        },
+        "semantic_claims": { "const": false },
+        "typed_event_status": { "const": "invalid" },
+        "typed_event_error": { "type": "string", "minLength": 1 }
+      },
+      "allOf": [
+        {
+          "if": {
+            "required": ["typed_event_status"],
+            "properties": { "typed_event_status": { "const": "invalid" } }
+          },
+          "then": { "required": ["typed_event_error"] }
+        }
+      ]
+    }
+  ],
+  "unevaluatedProperties": false
+}

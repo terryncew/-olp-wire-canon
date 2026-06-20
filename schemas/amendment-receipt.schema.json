@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:olp:wire:0.1:schema:amendment-receipt",
+  "title": "OLP amendment_receipt 0.1",
+  "allOf": [
+    { "$ref": "urn:olp:wire:0.1:schema:envelope" },
+    {
+      "type": "object",
+      "required": [
+        "trace_id",
+        "amendment_sequence",
+        "previous_receipt_hash",
+        "late_span_hash",
+        "reason"
+      ],
+      "properties": {
+        "kind": { "const": "amendment_receipt" },
+        "trace_id": { "$ref": "urn:olp:wire:0.1:schema:envelope#/$defs/trace_id" },
+        "amendment_sequence": { "type": "integer", "minimum": 1 },
+        "previous_receipt_hash": { "$ref": "urn:olp:wire:0.1:schema:envelope#/$defs/hash256" },
+        "late_span_hash": { "$ref": "urn:olp:wire:0.1:schema:envelope#/$defs/hash256" },
+        "reason": { "const": "span_arrived_after_provisional_seal" }
+      }
+    }
+  ],
+  "unevaluatedProperties": false
+}
