@@ -1,0 +1,20 @@
+{
+  "algorithm_id": "olp-wire-conformance-0.1",
+  "amendment_sequence": 1,
+  "attestation": "self",
+  "canonicalization_id": "olp-canonical-json-int-v1",
+  "capture_status": "provisional",
+  "kind": "amendment_receipt",
+  "late_span_hash": "535546b3d790a6da36ee469b1ea8f1ca10234206a771da7de633929b626b5c49",
+  "payload_hash": "583504f39af2e8f8c36c5e314711b1bec96f2cef0a1ea09b4f09f40690b09bfd",
+  "previous_receipt_hash": "740c20185c8f4aa11994c5dbabe19fd7d0d96decb5684864fe476c5b441620ce",
+  "reason": "span_arrived_after_provisional_seal",
+  "receipt_version": "0.1",
+  "signature": {
+    "algorithm": "Ed25519",
+    "public_key": "03a107bff3ce10be1d70dd18e74bc09967e4d6309ba50d5f1ddc8664125531b8",
+    "value": "01b60067973fea18297c8f9e2c1332df1ed8baf6cc5fbdc33e3a88c11240ac84528f31449af53b719b4a1083ad843a94dcdd524db249536af49c2e2e956c3403"
+  },
+  "spec_uri": "https://github.com/terryncew/olp-wire-canon",
+  "trace_id": "11111111111111111111111111111111"
+}

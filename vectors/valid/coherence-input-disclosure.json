@@ -1,0 +1,43 @@
+{
+  "disclosure_version": "0.1",
+  "kind": "coherence_input_disclosure",
+  "semantic_graph": {
+    "claims": [
+      {
+        "content_hash": "a4ac530b25e01708be1c45fdad9f60b24a9f099b798b7f67f86e7f997adda3f8",
+        "id": "claim_1",
+        "material": true
+      }
+    ],
+    "evidence": [
+      {
+        "content_hash": "5174021ce71b6319b2e300661979a41a750455580dec4eee0af3e9b3aa22df58",
+        "id": "evidence_1",
+        "observed": true
+      }
+    ],
+    "relations": [
+      {
+        "dst": "claim_1",
+        "relation_type": "supports",
+        "src": "evidence_1"
+      }
+    ]
+  },
+  "signal_schema_id": "conformance.normalized-signal.v1",
+  "signals": [
+    {
+      "sequence": 0,
+      "value_micros": 250000
+    },
+    {
+      "sequence": 1,
+      "value_micros": 500000
+    },
+    {
+      "sequence": 2,
+      "value_micros": 750000
+    }
+  ],
+  "trace_id": "22222222222222222222222222222222"
+}
