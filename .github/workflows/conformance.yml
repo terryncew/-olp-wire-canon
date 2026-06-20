@@ -1,0 +1,43 @@
+name: Wire Canon Conformance
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.11", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: python -m pip install -e .
+      - run: python scripts/generate_vectors.py
+      - run: python -m unittest tests.test_conformance -v
+      - run: >-
+          node verify-node.mjs
+          vectors/valid/trace-receipt.json
+          vectors/valid/coherence-input-receipt.json
+          vectors/valid/amendment-receipt.json
+          vectors/valid/capture-loss-amendment.json
+      - run: >-
+          node verify-chain-node.mjs
+          vectors/valid/trace-receipt.json
+          vectors/valid/amendment-receipt.json
+          vectors/valid/capture-loss-amendment.json
+      - run: >-
+          node verify-disclosure-node.mjs
+          vectors/valid/coherence-input-receipt.json
+          vectors/valid/coherence-input-disclosure.json
