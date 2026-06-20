@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:olp:wire:0.1:schema:envelope",
+  "title": "OLP Wire Canon 0.1 signed envelope",
+  "type": "object",
+  "required": [
+    "kind",
+    "receipt_version",
+    "algorithm_id",
+    "canonicalization_id",
+    "spec_uri",
+    "attestation",
+    "capture_status",
+    "payload_hash",
+    "signature"
+  ],
+  "properties": {
+    "kind": {
+      "enum": [
+        "trace_receipt",
+        "coherence_input_receipt",
+        "amendment_receipt",
+        "capture_loss_amendment"
+      ]
+    },
+    "receipt_version": { "const": "0.1" },
+    "algorithm_id": { "type": "string", "minLength": 1, "pattern": "^[\\x20-\\x7e]+$" },
+    "canonicalization_id": { "const": "olp-canonical-json-int-v1" },
+    "spec_uri": { "type": "string", "format": "uri" },
+    "attestation": { "const": "self" },
+    "capture_status": { "const": "provisional" },
+    "payload_hash": { "$ref": "#/$defs/hash256" },
+    "signature": { "$ref": "#/$defs/signature" }
+  },
+  "$defs": {
+    "hash256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "trace_id": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{32}$"
+    },
+    "signature": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["algorithm", "public_key", "value"],
+      "properties": {
+        "algorithm": { "const": "Ed25519" },
+        "public_key": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+        "value": { "type": "string", "pattern": "^[0-9a-f]{128}$" }
+      }
+    },
+    "completion_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "grace_millis", "semconv_schema_id"],
+      "properties": {
+        "type": { "const": "root_close_plus_grace" },
+        "grace_millis": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "semconv_schema_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^[\\x20-\\x7e]+$"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,104 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:olp:wire:0.1:schema:coherence-input-disclosure",
+  "title": "OLP coherence input disclosure 0.1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "kind",
+    "disclosure_version",
+    "trace_id",
+    "semantic_graph",
+    "signal_schema_id",
+    "signals"
+  ],
+  "properties": {
+    "kind": { "const": "coherence_input_disclosure" },
+    "disclosure_version": { "const": "0.1" },
+    "trace_id": { "type": "string", "pattern": "^[0-9a-f]{32}$" },
+    "semantic_graph": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["claims", "evidence", "relations"],
+      "properties": {
+        "claims": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/claim" }
+        },
+        "evidence": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/evidence" }
+        },
+        "relations": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/relation" }
+        }
+      }
+    },
+    "signal_schema_id": {
+      "oneOf": [
+        { "type": "null" },
+        { "type": "string", "minLength": 1, "pattern": "^[\\x20-\\x7e]+$" }
+      ]
+    },
+    "signals": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/signal" }
+    }
+  },
+  "$defs": {
+    "safe_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9._:-]+$"
+    },
+    "hash256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "claim": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "content_hash", "material"],
+      "properties": {
+        "id": { "$ref": "#/$defs/safe_id" },
+        "content_hash": { "$ref": "#/$defs/hash256" },
+        "material": { "type": "boolean" }
+      }
+    },
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "content_hash", "observed"],
+      "properties": {
+        "id": { "$ref": "#/$defs/safe_id" },
+        "content_hash": { "$ref": "#/$defs/hash256" },
+        "observed": { "const": true }
+      }
+    },
+    "relation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["src", "dst", "relation_type"],
+      "properties": {
+        "src": { "$ref": "#/$defs/safe_id" },
+        "dst": { "$ref": "#/$defs/safe_id" },
+        "relation_type": {
+          "enum": ["supports", "contradicts", "depends_on"]
+        }
+      }
+    },
+    "signal": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["sequence", "value_micros"],
+      "properties": {
+        "sequence": { "type": "integer", "minimum": 0 },
+        "value_micros": {
+          "type": "integer",
+          "minimum": -9007199254740991,
+          "maximum": 9007199254740991
+        }
+      }
+    }
+  }
+}
